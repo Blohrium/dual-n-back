@@ -2,21 +2,22 @@
     --bg-intensity: 90;
     --grid-rows: 1;
     --grid-cols: 1;
-    --text-color: hsl(0, 0%, calc(var(--bg-intensity) * 1%));
-    --panel-bg: hsl(0, 0%, calc(100% - var(--bg-intensity) * 1.1%));
+    /* This formula keeps text readable regardless of background darkness */
+    --text-color: hsl(0, 0%, calc(100% - var(--bg-intensity) * 1%));
+    --inv-text: hsl(0, 0%, calc(var(--bg-intensity) * 1%));
 }
 
 body {
     background-color: hsl(0, 0%, calc(100% - var(--bg-intensity) * 1%));
-    color: var(--text-color);
+    color: var(--inv-text);
     font-family: sans-serif;
     margin: 0;
     display: flex;
     justify-content: center;
-    transition: background-color 0.3s ease;
+    transition: background 0.3s;
 }
 
-#ui-container { width: 95%; text-align: center; padding-top: 40px; }
+#ui-container { width: 95%; max-width: 800px; text-align: center; padding-top: 50px; }
 
 #game-grid {
     display: grid;
@@ -24,28 +25,27 @@ body {
     grid-template-columns: repeat(var(--grid-cols), 1fr);
     grid-gap: 10px;
     width: 90vw;
-    height: 60vh;
+    height: 50vh;
     margin: 20px auto;
 }
 
-.stimulus-container { border: 1px solid rgba(128,128,128,0.3); display: grid; gap: 1px; }
-.cell { background-color: rgba(128,128,128,0.05); aspect-ratio: 1/1; }
+.stimulus-container { border: 1px solid gray; display: grid; gap: 1px; }
+.cell { background-color: rgba(128, 128, 128, 0.2); aspect-ratio: 1/1; }
 .cell.active { background-color: #3498db; box-shadow: 0 0 15px #3498db; }
 
 #settings-panel {
     position: fixed; top: 0; left: 0; width: 280px; height: 100%;
-    background: var(--panel-bg); color: var(--text-color);
-    transition: 0.4s ease; z-index: 1000; padding: 20px; text-align: left;
+    background: #1a1a1a; color: white; transition: 0.3s; z-index: 1000; padding: 20px;
 }
 #settings-panel.closed { transform: translateX(-100%); }
 
 .tab-bar { display: flex; gap: 2px; margin-bottom: 20px; }
-.tab-btn { flex: 1; padding: 10px 5px; background: #333; color: white; border: none; cursor: pointer; }
+.tab-btn { flex: 1; padding: 10px; background: #333; color: white; border: none; cursor: pointer; }
 .tab-btn.active { background: #3498db; }
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
-.main-btn { padding: 15px; margin: 5px; width: 100%; max-width: 300px; cursor: pointer; background: #3498db; color: white; border: none; font-weight: bold; }
+.main-btn { padding: 15px; margin: 10px; width: 80%; cursor: pointer; background: #3498db; color: white; border: none; font-weight: bold; border-radius: 5px; }
 .menu-btn { width: 100%; padding: 10px; margin-top: 10px; cursor: pointer; border: none; background: #444; color: white; }
 #save-string { width: 100%; height: 80px; font-size: 10px; margin-top: 10px; background: #000; color: #0f0; }
 #feedback { margin-top: 10px; font-weight: bold; height: 20px; }

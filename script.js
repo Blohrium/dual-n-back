@@ -1,11 +1,12 @@
 const state = {
     settings: {
         n: 2, gridRows: 1, gridCols: 1, gridRes: 3, 
-        intensity: 90, intervalMs: 3000, flashMs: 600
+        intensity: 90, intervalMs: 3000
     },
     history: [], currentIndex: -1, gameInterval: null
 };
 
+// UI Functions
 function toggleSettings() { document.getElementById('settings-panel').classList.toggle('closed'); }
 
 function openTab(tabName) {
@@ -15,9 +16,12 @@ function openTab(tabName) {
     event.currentTarget.classList.add('active');
 }
 
+// Logic to build the grid
 function createGrid() {
     const mainContainer = document.getElementById('game-grid');
+    if (!mainContainer) return;
     mainContainer.innerHTML = '';
+    
     const rows = state.settings.gridRows;
     const cols = state.settings.gridCols;
     const res = state.settings.gridRes;
@@ -42,6 +46,7 @@ function createGrid() {
     }
 }
 
+// Session Engine
 function nextTurn() {
     state.currentIndex++;
     document.getElementById('step-count').innerText = state.currentIndex + 1;
@@ -55,22 +60,21 @@ function nextTurn() {
     const target = document.getElementById(`cell-${randomContainer}-${randomCell}`);
     if (target) {
         target.classList.add('active');
-        setTimeout(() => target.classList.remove('active'), state.settings.flashMs);
+        setTimeout(() => target.classList.remove('active'), 600);
     }
 }
 
+// Save/Load
 function exportSave() {
-    // Sync settings from inputs
+    // Sync state with current inputs
     state.settings.n = parseInt(document.getElementById('n-level').value);
     state.settings.gridRows = parseInt(document.getElementById('grid-rows').value);
     state.settings.gridCols = parseInt(document.getElementById('grid-cols').value);
     state.settings.gridRes = parseInt(document.getElementById('grid-res').value);
     state.settings.intervalMs = parseInt(document.getElementById('interval-ms').value);
-    state.settings.flashMs = parseInt(document.getElementById('flash-ms').value);
 
     const string = btoa(JSON.stringify(state.settings));
     document.getElementById('save-string').value = string;
-    document.getElementById('feedback').innerText = "Exported Successfully";
 }
 
 function loadSave() {
@@ -79,25 +83,25 @@ function loadSave() {
         const data = JSON.parse(atob(string));
         state.settings = data;
         
+        // Update inputs
         document.getElementById('n-level').value = data.n;
         document.getElementById('grid-rows').value = data.gridRows;
         document.getElementById('grid-cols').value = data.gridCols;
         document.getElementById('grid-res').value = data.gridRes;
         document.getElementById('interval-ms').value = data.intervalMs;
-        document.getElementById('flash-ms').value = data.flashMs;
         
         createGrid();
-        document.getElementById('feedback').innerText = "Save Loaded";
-    } catch(e) { alert("Invalid Save String"); }
+        alert("Load successful!");
+    } catch(e) { alert("Invalid string"); }
 }
 
+// Setup Listeners
 document.getElementById('start-btn').onclick = () => {
     if(state.gameInterval) clearInterval(state.gameInterval);
     state.history = [];
     state.currentIndex = -1;
     state.settings.n = parseInt(document.getElementById('n-level').value);
     state.settings.intervalMs = parseInt(document.getElementById('interval-ms').value);
-    state.settings.flashMs = parseInt(document.getElementById('flash-ms').value);
     document.getElementById('n-display').innerText = state.settings.n;
     state.gameInterval = setInterval(nextTurn, state.settings.intervalMs);
 };
@@ -114,7 +118,23 @@ document.getElementById('pos-match').onclick = () => {
     }
 };
 
+document.getElementById('theme-intensity').oninput = (e) => {
+    state.settings.intensity = e.target.value;
+    document.documentElement.style.setProperty('--bg-intensity', e.target.value);
+};
+
 document.getElementById('save-btn').onclick = exportSave;
 document.getElementById('load-btn').onclick = loadSave;
 
+// Auto-update grid when numbers change
+['grid-rows', 'grid-cols', 'grid-res'].forEach(id => {
+    document.getElementById(id).onchange = () => {
+        state.settings.gridRows = parseInt(document.getElementById('grid-rows').value);
+        state.settings.gridCols = parseInt(document.getElementById('grid-cols').value);
+        state.settings.gridRes = parseInt(document.getElementById('grid-res').value);
+        createGrid();
+    };
+});
+
+// Start
 createGrid();

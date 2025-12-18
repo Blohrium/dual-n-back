@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Advanced Multi-Stream N-Back</title>
+    <title>Dual N-Back Pro</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="settings-icon" onclick="toggleSettings()">⚙️</div>
 
-    <div id="settings-panel" class="closed theme-aware">
+    <div id="settings-panel" class="closed">
         <div class="panel-header">
-            <h2>Configuration</h2>
+            <h2>Settings</h2>
             <span class="close-btn" onclick="toggleSettings()">×</span>
         </div>
         
         <div class="tab-bar">
             <button class="tab-btn active" onclick="openTab('game')">Game</button>
-            <button class="tab-btn" onclick="openTab('theme')">Visual</button>
-            <button class="tab-btn" onclick="openTab('data')">Save/Load</button>
+            <button class="tab-btn" onclick="openTab('theme')">Theme</button>
+            <button class="tab-btn" onclick="openTab('data')">Data</button>
         </div>
 
         <div id="game" class="tab-content active">
@@ -27,11 +27,11 @@
                 <input type="number" id="n-level" value="2" min="1">
             </div>
             <div class="setting-group">
-                <label>Layout Rows:</label>
+                <label>Rows:</label>
                 <input type="number" id="grid-rows" value="1" min="1" max="10">
             </div>
             <div class="setting-group">
-                <label>Layout Columns:</label>
+                <label>Cols:</label>
                 <input type="number" id="grid-cols" value="1" min="1" max="10">
             </div>
             <div class="setting-group">
@@ -40,27 +40,23 @@
             </div>
             <div class="setting-group">
                 <label>Interval (ms):</label>
-                <input type="number" id="interval-ms" value="3000" step="100">
-            </div>
-            <div class="setting-group">
-                <label>Flash Duration (ms):</label>
-                <input type="number" id="flash-ms" value="600" step="50">
+                <input type="number" id="interval-ms" value="3000">
             </div>
         </div>
 
         <div id="theme" class="tab-content">
             <div class="setting-group">
-                <label>UI Intensity:</label>
+                <label>Darkness Intensity:</label>
                 <input type="range" id="theme-intensity" min="0" max="100" value="90">
             </div>
-            <button class="menu-btn" onclick="setThemePreset('dark')">Dark Mode</button>
-            <button class="menu-btn" onclick="setThemePreset('amoled')">Amoled</button>
+            <button class="menu-btn" onclick="setThemePreset('dark')">Default Dark</button>
+            <button class="menu-btn" onclick="setThemePreset('amoled')">Amoled Black</button>
         </div>
 
         <div id="data" class="tab-content">
-            <button id="save-btn" class="menu-btn">Generate Export String</button>
-            <textarea id="save-string" placeholder="Data will appear here..."></textarea>
-            <button id="load-btn" class="menu-btn" style="background:#27ae60">Load From Textabove</button>
+            <button id="save-btn" class="menu-btn">Generate Save String</button>
+            <textarea id="save-string" placeholder="Save string will appear here..."></textarea>
+            <button id="load-btn" class="menu-btn" style="background:#27ae60">Load From String</button>
         </div>
     </div>
 
