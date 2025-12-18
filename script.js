@@ -56,3 +56,29 @@ document.getElementById('grid-res').addEventListener('change', (e) => {
 });
 
 createGrid();
+function openTab(tabName) {
+    // Hide all contents
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    
+    // Show selected
+    document.getElementById(tabName).classList.add('active');
+    event.currentTarget.classList.add('active');
+}
+
+// Intensity Logic
+document.getElementById('theme-intensity').addEventListener('input', (e) => {
+    const val = e.target.value;
+    // Lower intensity = lighter gray, Higher = darker black
+    document.documentElement.style.setProperty('--bg-intensity', val);
+});
+
+function setTheme(type) {
+    if (type === 'amoled') {
+        document.getElementById('theme-intensity').value = 100;
+        document.documentElement.style.setProperty('--bg-intensity', 100);
+    } else {
+        document.getElementById('theme-intensity').value = 70;
+        document.documentElement.style.setProperty('--bg-intensity', 70);
+    }
+}

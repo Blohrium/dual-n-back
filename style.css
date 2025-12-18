@@ -35,3 +35,20 @@
 #settings-panel.closed {
     transform: translateX(-100%);
 }
+/* Tab Logic */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+.tab-bar { display: flex; gap: 5px; margin-bottom: 20px; }
+.tab-btn { flex: 1; padding: 8px; cursor: pointer; background: #444; color: white; border: none; }
+.tab-btn.active { background: #3498db; }
+
+/* Dynamic Theme Variable */
+:root {
+    --bg-intensity: 30; /* This will be updated via JS */
+}
+
+body {
+    /* Using HSL allows us to adjust lightness via one variable */
+    background-color: hsl(0, 0%, calc(100% - var(--bg-intensity) * 1%));
+    transition: background-color 0.2s ease;
+}
