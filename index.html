@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Multi-Grid N-Back</title>
+    <title>Advanced Multi-Stream N-Back</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,14 +11,14 @@
 
     <div id="settings-panel" class="closed theme-aware">
         <div class="panel-header">
-            <h2>Settings</h2>
+            <h2>Configuration</h2>
             <span class="close-btn" onclick="toggleSettings()">×</span>
         </div>
         
         <div class="tab-bar">
             <button class="tab-btn active" onclick="openTab('game')">Game</button>
-            <button class="tab-btn" onclick="openTab('theme')">Theme</button>
-            <button class="tab-btn" onclick="openTab('data')">Data</button>
+            <button class="tab-btn" onclick="openTab('theme')">Visual</button>
+            <button class="tab-btn" onclick="openTab('data')">Save/Load</button>
         </div>
 
         <div id="game" class="tab-content active">
@@ -27,18 +27,30 @@
                 <input type="number" id="n-level" value="2" min="1">
             </div>
             <div class="setting-group">
-                <label>Layout (1x1, 2x2):</label>
-                <input type="number" id="layout-size" value="1" min="1" max="4">
+                <label>Layout Rows:</label>
+                <input type="number" id="grid-rows" value="1" min="1" max="10">
+            </div>
+            <div class="setting-group">
+                <label>Layout Columns:</label>
+                <input type="number" id="grid-cols" value="1" min="1" max="10">
             </div>
             <div class="setting-group">
                 <label>Internal Resolution:</label>
                 <input type="number" id="grid-res" value="3" min="1" max="20">
             </div>
+            <div class="setting-group">
+                <label>Interval (ms):</label>
+                <input type="number" id="interval-ms" value="3000" step="100">
+            </div>
+            <div class="setting-group">
+                <label>Flash Duration (ms):</label>
+                <input type="number" id="flash-ms" value="600" step="50">
+            </div>
         </div>
 
         <div id="theme" class="tab-content">
             <div class="setting-group">
-                <label>Background Intensity:</label>
+                <label>UI Intensity:</label>
                 <input type="range" id="theme-intensity" min="0" max="100" value="90">
             </div>
             <button class="menu-btn" onclick="setThemePreset('dark')">Dark Mode</button>
@@ -46,24 +58,21 @@
         </div>
 
         <div id="data" class="tab-content">
-            <button id="save-btn" class="menu-btn">Export Save String</button>
-            <button id="load-btn" class="menu-btn" style="background:#27ae60">Load from String</button>
-            <textarea id="save-string" placeholder="Paste save here..."></textarea>
+            <button id="save-btn" class="menu-btn">Generate Export String</button>
+            <textarea id="save-string" placeholder="Data will appear here..."></textarea>
+            <button id="load-btn" class="menu-btn" style="background:#27ae60">Load From Textabove</button>
         </div>
     </div>
 
     <div id="ui-container">
-        <h1 id="title-text">Dual N-Back</h1>
+        <div id="status-bar">Step: <span id="step-count">0</span> | N: <span id="n-display">2</span></div>
         <div id="game-grid"></div>
-        
         <div id="controls">
             <button id="start-btn" class="main-btn">Start Session</button>
-            <div id="match-buttons">
-                <button id="pos-match" class="main-btn">Position Match (A)</button>
-            </div>
+            <button id="pos-match" class="main-btn">Match Position (A)</button>
+            <div id="feedback">Ready...</div>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>

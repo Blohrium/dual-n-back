@@ -1,7 +1,7 @@
 :root {
     --bg-intensity: 90;
-    --layout-size: 1;
-    /* Calculate text color: white if dark, black if light */
+    --grid-rows: 1;
+    --grid-cols: 1;
     --text-color: hsl(0, 0%, calc(var(--bg-intensity) * 1%));
     --panel-bg: hsl(0, 0%, calc(100% - var(--bg-intensity) * 1.1%));
 }
@@ -13,58 +13,39 @@ body {
     margin: 0;
     display: flex;
     justify-content: center;
-    overflow-x: hidden;
     transition: background-color 0.3s ease;
 }
 
-#ui-container {
-    width: 100%;
-    max-width: 500px;
-    text-align: center;
-    padding-top: 50px;
-}
+#ui-container { width: 95%; text-align: center; padding-top: 40px; }
 
 #game-grid {
     display: grid;
-    grid-template-columns: repeat(var(--layout-size), 1fr);
-    grid-gap: 15px;
+    grid-template-rows: repeat(var(--grid-rows), 1fr);
+    grid-template-columns: repeat(var(--grid-cols), 1fr);
+    grid-gap: 10px;
     width: 90vw;
-    height: 90vw;
-    max-width: 400px;
-    max-height: 400px;
+    height: 60vh;
     margin: 20px auto;
 }
 
-.stimulus-container {
-    border: 1px solid #444;
-    display: grid;
-    gap: 1px;
-}
-
-.cell { background-color: rgba(128, 128, 128, 0.1); }
+.stimulus-container { border: 1px solid rgba(128,128,128,0.3); display: grid; gap: 1px; }
+.cell { background-color: rgba(128,128,128,0.05); aspect-ratio: 1/1; }
 .cell.active { background-color: #3498db; box-shadow: 0 0 15px #3498db; }
 
-/* Theme-Aware Settings Panel */
 #settings-panel {
-    position: fixed;
-    top: 0; left: 0; width: 280px; height: 100%;
-    background: var(--panel-bg);
-    border-right: 1px solid #444;
-    color: var(--text-color);
-    transition: 0.3s ease;
-    z-index: 1000;
-    padding: 20px;
+    position: fixed; top: 0; left: 0; width: 280px; height: 100%;
+    background: var(--panel-bg); color: var(--text-color);
+    transition: 0.4s ease; z-index: 1000; padding: 20px; text-align: left;
 }
-
 #settings-panel.closed { transform: translateX(-100%); }
 
-.tab-bar { display: flex; gap: 5px; margin-bottom: 20px; }
-.tab-btn { flex: 1; padding: 8px; background: #333; color: white; border: none; cursor: pointer; }
+.tab-bar { display: flex; gap: 2px; margin-bottom: 20px; }
+.tab-btn { flex: 1; padding: 10px 5px; background: #333; color: white; border: none; cursor: pointer; }
 .tab-btn.active { background: #3498db; }
-
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
-.main-btn { padding: 15px; margin: 5px; width: 85%; cursor: pointer; font-weight: bold; }
+.main-btn { padding: 15px; margin: 5px; width: 100%; max-width: 300px; cursor: pointer; background: #3498db; color: white; border: none; font-weight: bold; }
 .menu-btn { width: 100%; padding: 10px; margin-top: 10px; cursor: pointer; border: none; background: #444; color: white; }
 #save-string { width: 100%; height: 80px; font-size: 10px; margin-top: 10px; background: #000; color: #0f0; }
+#feedback { margin-top: 10px; font-weight: bold; height: 20px; }

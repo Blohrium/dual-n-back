@@ -1,17 +1,11 @@
 const state = {
     settings: {
-        n: 2,
-        layoutSize: 1,
-        gridRes: 3,
-        intensity: 90,
-        interval: 3000
+        n: 2, gridRows: 1, gridCols: 1, gridRes: 3, 
+        intensity: 90, intervalMs: 3000, flashMs: 600
     },
-    history: [],
-    currentIndex: -1,
-    gameActive: false
+    history: [], currentIndex: -1, gameInterval: null
 };
 
-// 1. UI HELPERS
 function toggleSettings() { document.getElementById('settings-panel').classList.toggle('closed'); }
 
 function openTab(tabName) {
@@ -21,59 +15,62 @@ function openTab(tabName) {
     event.currentTarget.classList.add('active');
 }
 
-// 2. GRID & THEME LOGIC
 function createGrid() {
     const mainContainer = document.getElementById('game-grid');
     mainContainer.innerHTML = '';
-    const L = state.settings.layoutSize;
-    const R = state.settings.gridRes;
-    document.documentElement.style.setProperty('--layout-size', L);
+    const rows = state.settings.gridRows;
+    const cols = state.settings.gridCols;
+    const res = state.settings.gridRes;
 
-    for (let i = 0; i < L * L; i++) {
-        const container = document.createElement('div');
-        container.classList.add('stimulus-container');
-        container.style.gridTemplateColumns = `repeat(${R}, 1fr)`;
-        for (let j = 0; j < R * R; j++) {
-            const cell = document.createElement('div');
-            cell.classList.add('cell');
-            cell.id = `cell-${i}-${j}`;
-            container.appendChild(cell);
+    document.documentElement.style.setProperty('--grid-rows', rows);
+    document.documentElement.style.setProperty('--grid-cols', cols);
+
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            const containerIndex = r * cols + c;
+            const container = document.createElement('div');
+            container.classList.add('stimulus-container');
+            container.style.gridTemplateColumns = `repeat(${res}, 1fr)`;
+            for (let i = 0; i < res * res; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.id = `cell-${containerIndex}-${i}`;
+                container.appendChild(cell);
+            }
+            mainContainer.appendChild(container);
         }
-        mainContainer.appendChild(container);
     }
 }
 
-function updateTheme(val) {
-    state.settings.intensity = val;
-    document.documentElement.style.setProperty('--bg-intensity', val);
-    document.getElementById('theme-intensity').value = val;
-}
-
-// 3. GAME ENGINE
 function nextTurn() {
     state.currentIndex++;
-    const L = state.settings.layoutSize;
-    const R = state.settings.gridRes;
+    document.getElementById('step-count').innerText = state.currentIndex + 1;
+    const totalContainers = state.settings.gridRows * state.settings.gridCols;
+    const res = state.settings.gridRes;
     
-    // Pick random container and random cell inside it
-    const randomContainer = Math.floor(Math.random() * (L * L));
-    const randomCell = Math.floor(Math.random() * (R * R));
+    const randomContainer = Math.floor(Math.random() * totalContainers);
+    const randomCell = Math.floor(Math.random() * (res * res));
     
-    const pos = { c: randomContainer, i: randomCell };
-    state.history.push(pos);
-
-    const target = document.getElementById(`cell-${pos.c}-${pos.i}`);
+    state.history.push({ c: randomContainer, i: randomCell });
+    const target = document.getElementById(`cell-${randomContainer}-${randomCell}`);
     if (target) {
         target.classList.add('active');
-        setTimeout(() => target.classList.remove('active'), 600);
+        setTimeout(() => target.classList.remove('active'), state.settings.flashMs);
     }
 }
 
-// 4. DATA LOGIC (SAVE/LOAD)
 function exportSave() {
+    // Sync settings from inputs
+    state.settings.n = parseInt(document.getElementById('n-level').value);
+    state.settings.gridRows = parseInt(document.getElementById('grid-rows').value);
+    state.settings.gridCols = parseInt(document.getElementById('grid-cols').value);
+    state.settings.gridRes = parseInt(document.getElementById('grid-res').value);
+    state.settings.intervalMs = parseInt(document.getElementById('interval-ms').value);
+    state.settings.flashMs = parseInt(document.getElementById('flash-ms').value);
+
     const string = btoa(JSON.stringify(state.settings));
     document.getElementById('save-string').value = string;
-    localStorage.setItem('nback-save', string);
+    document.getElementById('feedback').innerText = "Exported Successfully";
 }
 
 function loadSave() {
@@ -82,42 +79,42 @@ function loadSave() {
         const data = JSON.parse(atob(string));
         state.settings = data;
         
-        // Refresh UI
         document.getElementById('n-level').value = data.n;
-        document.getElementById('layout-size').value = data.layoutSize;
+        document.getElementById('grid-rows').value = data.gridRows;
+        document.getElementById('grid-cols').value = data.gridCols;
         document.getElementById('grid-res').value = data.gridRes;
-        updateTheme(data.intensity);
+        document.getElementById('interval-ms').value = data.intervalMs;
+        document.getElementById('flash-ms').value = data.flashMs;
+        
         createGrid();
-        alert("Settings Loaded!");
+        document.getElementById('feedback').innerText = "Save Loaded";
     } catch(e) { alert("Invalid Save String"); }
 }
 
-// 5. EVENT LISTENERS
 document.getElementById('start-btn').onclick = () => {
+    if(state.gameInterval) clearInterval(state.gameInterval);
     state.history = [];
     state.currentIndex = -1;
     state.settings.n = parseInt(document.getElementById('n-level').value);
-    setInterval(nextTurn, state.settings.interval);
+    state.settings.intervalMs = parseInt(document.getElementById('interval-ms').value);
+    state.settings.flashMs = parseInt(document.getElementById('flash-ms').value);
+    document.getElementById('n-display').innerText = state.settings.n;
+    state.gameInterval = setInterval(nextTurn, state.settings.intervalMs);
 };
 
 document.getElementById('pos-match').onclick = () => {
     if (state.currentIndex < state.settings.n) return;
     const current = state.history[state.currentIndex];
     const past = state.history[state.currentIndex - state.settings.n];
-    
+    const fb = document.getElementById('feedback');
     if (current.c === past.c && current.i === past.i) {
-        alert("Correct Match!");
+        fb.innerText = "MATCH!"; fb.style.color = "#2ecc71";
     } else {
-        alert("Wrong!");
+        fb.innerText = "WRONG!"; fb.style.color = "#e74c3c";
     }
 };
 
-document.getElementById('theme-intensity').oninput = (e) => updateTheme(e.target.value);
 document.getElementById('save-btn').onclick = exportSave;
 document.getElementById('load-btn').onclick = loadSave;
-document.getElementById('layout-size').onchange = (e) => { state.settings.layoutSize = e.target.value; createGrid(); };
-document.getElementById('grid-res').onchange = (e) => { state.settings.gridRes = e.target.value; createGrid(); };
 
-// Initialization
 createGrid();
-updateTheme(state.settings.intensity);
