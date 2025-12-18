@@ -1,50 +1,67 @@
 const state = {
     settings: {
         n: 2,
-        layoutSize: 1, // e.g., 2 means a 2x2 group of grids
-        gridRes: 3,    // e.g., 10 means 10x10 squares per grid
+        layoutSize: 1,
+        gridRes: 3,
+        intensity: 90,
         interval: 3000
     },
     history: [],
     currentIndex: -1
 };
 
+// Toggle Settings Panel
+function toggleSettings() {
+    document.getElementById('settings-panel').classList.toggle('closed');
+}
+
+// Switch between Settings Tabs
+function openTab(tabName) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabName).classList.add('active');
+    event.currentTarget.classList.add('active');
+}
+
+// Generate the Nested Grid
 function createGrid() {
     const mainContainer = document.getElementById('game-grid');
     mainContainer.innerHTML = '';
     
-    // 1. Set the top-level layout (e.g., 2x2 grids)
     const L = state.settings.layoutSize;
     const R = state.settings.gridRes;
     
-    mainContainer.style.gridTemplateColumns = `repeat(${L}, 1fr)`;
-    
-    // Create the "Stimulus Containers"
+    document.documentElement.style.setProperty('--layout-size', L);
+
     for (let i = 0; i < L * L; i++) {
         const stimulusContainer = document.createElement('div');
         stimulusContainer.classList.add('stimulus-container');
-        stimulusContainer.id = `container-${i}`;
-        
-        // 2. Set the internal resolution (e.g., 10x10 squares)
-        stimulusContainer.style.display = 'grid';
         stimulusContainer.style.gridTemplateColumns = `repeat(${R}, 1fr)`;
         
         for (let j = 0; j < R * R; j++) {
             const cell = document.createElement('div');
             cell.classList.add('cell');
-            cell.id = `cell-${i}-${j}`; // containerIndex-cellIndex
+            cell.id = `cell-${i}-${j}`; 
             stimulusContainer.appendChild(cell);
         }
         mainContainer.appendChild(stimulusContainer);
     }
 }
 
-function toggleSettings() {
-    const panel = document.getElementById('settings-panel');
-    panel.classList.toggle('closed');
+// Theme Controls
+document.getElementById('theme-intensity').addEventListener('input', (e) => {
+    state.settings.intensity = e.target.value;
+    document.documentElement.style.setProperty('--bg-intensity', e.target.value);
+});
+
+function setThemePreset(preset) {
+    const val = preset === 'amoled' ? 100 : 80;
+    state.settings.intensity = val;
+    document.getElementById('theme-intensity').value = val;
+    document.documentElement.style.setProperty('--bg-intensity', val);
 }
 
-// Ensure settings update the grid
+// Update settings on change
 document.getElementById('layout-size').addEventListener('change', (e) => {
     state.settings.layoutSize = parseInt(e.target.value);
     createGrid();
@@ -55,30 +72,5 @@ document.getElementById('grid-res').addEventListener('change', (e) => {
     createGrid();
 });
 
+// Start the Grid
 createGrid();
-function openTab(tabName) {
-    // Hide all contents
-    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    
-    // Show selected
-    document.getElementById(tabName).classList.add('active');
-    event.currentTarget.classList.add('active');
-}
-
-// Intensity Logic
-document.getElementById('theme-intensity').addEventListener('input', (e) => {
-    const val = e.target.value;
-    // Lower intensity = lighter gray, Higher = darker black
-    document.documentElement.style.setProperty('--bg-intensity', val);
-});
-
-function setTheme(type) {
-    if (type === 'amoled') {
-        document.getElementById('theme-intensity').value = 100;
-        document.documentElement.style.setProperty('--bg-intensity', 100);
-    } else {
-        document.getElementById('theme-intensity').value = 70;
-        document.documentElement.style.setProperty('--bg-intensity', 70);
-    }
-}

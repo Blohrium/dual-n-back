@@ -1,52 +1,68 @@
-<div id="settings-icon" onclick="toggleSettings()">⚙️</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Multi-Grid N-Back</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="settings-icon" onclick="toggleSettings()">⚙️</div>
 
-<div id="settings-panel" class="closed">
-    <div class="panel-header">
-        <h2>Settings</h2>
-        <span class="close-btn" onclick="toggleSettings()">×</span>
-    </div>
-
-    <div class="tab-bar">
-        <button class="tab-btn active" onclick="openTab('game')">Game</button>
-        <button class="tab-btn" onclick="openTab('visuals')">Theme</button>
-        <button class="tab-btn" onclick="openTab('data')">Data</button>
-    </div>
-
-    <div id="game" class="tab-content active">
-        <div class="setting-group">
-            <label>N-Level:</label>
-            <input type="number" id="n-level" value="2" min="1">
+    <div id="settings-panel" class="closed">
+        <div class="panel-header">
+            <h2>Settings</h2>
+            <span class="close-btn" onclick="toggleSettings()">×</span>
         </div>
-        <div class="setting-group">
-            <label>Layout (2=2x2):</label>
-            <input type="number" id="layout-size" value="1" min="1" max="4">
+        
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="openTab('game')">Game</button>
+            <button class="tab-btn" onclick="openTab('theme')">Theme</button>
+            <button class="tab-btn" onclick="openTab('data')">Data</button>
         </div>
-        <div class="setting-group">
-            <label>Internal Resolution:</label>
-            <input type="number" id="grid-res" value="3" min="1" max="20">
+
+        <div id="game" class="tab-content active">
+            <div class="setting-group">
+                <label>N-Back Level:</label>
+                <input type="number" id="n-level" value="2" min="1">
+            </div>
+            <div class="setting-group">
+                <label>Layout (1x1, 2x2, etc):</label>
+                <input type="number" id="layout-size" value="1" min="1" max="4">
+            </div>
+            <div class="setting-group">
+                <label>Internal Resolution:</label>
+                <input type="number" id="grid-res" value="3" min="1" max="20">
+            </div>
+        </div>
+
+        <div id="theme" class="tab-content">
+            <div class="setting-group">
+                <label>Background Intensity:</label>
+                <input type="range" id="theme-intensity" min="0" max="100" value="90">
+            </div>
+            <button class="menu-btn" onclick="setThemePreset('dark')">Dark Mode</button>
+            <button class="menu-btn" onclick="setThemePreset('amoled')">Amoled (100%)</button>
+        </div>
+
+        <div id="data" class="tab-content">
+            <button id="save-btn" class="menu-btn">Export Save String</button>
+            <textarea id="save-string" placeholder="Paste save here..."></textarea>
         </div>
     </div>
 
-    <div id="visuals" class="tab-content">
-        <div class="setting-group">
-            <label>Intensity:</label>
-            <input type="range" id="theme-intensity" min="0" max="100" value="70">
+    <div id="ui-container">
+        <h1>Dual N-Back</h1>
+        <div id="game-grid"></div>
+        
+        <div id="controls">
+            <button id="start-btn" class="main-btn">Start Session</button>
+            <div id="match-buttons">
+                <button id="pos-match" class="main-btn">Position Match (A)</button>
+            </div>
         </div>
-        <button onclick="setTheme('dark')">Dark Mode</button>
-        <button onclick="setTheme('amoled')">Amoled</button>
     </div>
 
-    <div id="data" class="tab-content">
-        <button id="save-btn">Export Save String</button>
-        <textarea id="save-string" placeholder="Paste save here..."></textarea>
-    </div>
-</div>
-
-<div id="ui-container">
-    <h1>Dual N-Back</h1>
-    <div id="game-grid"></div>
-    <div id="controls">
-        <button id="start-btn">Start Session</button>
-        <button id="pos-match">Position Match (A)</button>
-    </div>
-</div>
+    <script src="script.js"></script>
+</body>
+</html>
