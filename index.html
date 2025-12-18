@@ -7,6 +7,29 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="settings-icon" onclick="toggleSettings()">⚙️</div>
+
+<div id="settings-panel" class="closed">
+    <div class="panel-header">
+        <h2>Settings</h2>
+        <span class="close-btn" onclick="toggleSettings()">×</span>
+    </div>
+    
+    <div class="setting-group">
+        <label>N-Back Level:</label>
+        <input type="number" id="n-level" value="2" min="1">
+    </div>
+
+    <div class="setting-group">
+        <label>Grid Size:</label>
+        <input type="number" id="grid-size-input" value="3" min="3" max="10">
+    </div>
+
+    <hr>
+    <h3>Data Management</h3>
+    <button id="save-btn">Export Save String</button>
+    <textarea id="save-string" placeholder="Paste save here..."></textarea>
+</div>
     <div id="ui-container">
         <h1>Dual N-Back</h1>
         <div id="game-grid"></div>

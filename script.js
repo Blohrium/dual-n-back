@@ -107,3 +107,13 @@ document.getElementById('save-string').addEventListener('change', (e) => {
 });
 
 createGrid();
+function toggleSettings() {
+    const panel = document.getElementById('settings-panel');
+    panel.classList.toggle('closed');
+}
+
+// Update the grid size when the setting changes
+document.getElementById('grid-size-input').addEventListener('change', (e) => {
+    state.settings.gridSize = parseInt(e.target.value);
+    createGrid(); // Redraw the grid immediately
+});

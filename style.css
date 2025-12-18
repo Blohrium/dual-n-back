@@ -51,3 +51,55 @@ body {
     font-family: monospace;
     font-size: 10px;
 }
+/* Settings Icon */
+#settings-icon {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 1001;
+    user-select: none;
+}
+
+/* The Panel */
+#settings-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100%;
+    background: #252525;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+    padding: 20px;
+    z-index: 1000;
+    color: white;
+}
+
+#settings-panel.closed {
+    transform: translateX(-100%);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #444;
+    margin-bottom: 20px;
+}
+
+.close-btn {
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.setting-group {
+    margin: 15px 0;
+}
+
+.setting-group label {
+    display: block;
+    font-size: 14px;
+    color: #bbb;
+}
