@@ -9,7 +9,7 @@
 <body>
     <div id="settings-icon" onclick="toggleSettings()">⚙️</div>
 
-    <div id="settings-panel" class="closed">
+    <div id="settings-panel" class="closed theme-aware">
         <div class="panel-header">
             <h2>Settings</h2>
             <span class="close-btn" onclick="toggleSettings()">×</span>
@@ -27,7 +27,7 @@
                 <input type="number" id="n-level" value="2" min="1">
             </div>
             <div class="setting-group">
-                <label>Layout (1x1, 2x2, etc):</label>
+                <label>Layout (1x1, 2x2):</label>
                 <input type="number" id="layout-size" value="1" min="1" max="4">
             </div>
             <div class="setting-group">
@@ -42,17 +42,18 @@
                 <input type="range" id="theme-intensity" min="0" max="100" value="90">
             </div>
             <button class="menu-btn" onclick="setThemePreset('dark')">Dark Mode</button>
-            <button class="menu-btn" onclick="setThemePreset('amoled')">Amoled (100%)</button>
+            <button class="menu-btn" onclick="setThemePreset('amoled')">Amoled</button>
         </div>
 
         <div id="data" class="tab-content">
             <button id="save-btn" class="menu-btn">Export Save String</button>
+            <button id="load-btn" class="menu-btn" style="background:#27ae60">Load from String</button>
             <textarea id="save-string" placeholder="Paste save here..."></textarea>
         </div>
     </div>
 
     <div id="ui-container">
-        <h1>Dual N-Back</h1>
+        <h1 id="title-text">Dual N-Back</h1>
         <div id="game-grid"></div>
         
         <div id="controls">
