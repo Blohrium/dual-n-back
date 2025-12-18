@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dual N-Back Pro v0.8.0</title>
+    <title>Dual N-Back Pro v0.8.1</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
 
     <div id="settings-panel" class="closed">
         <div class="panel-header">
-            <h2 id="version-tag">Settings v0.8.0</h2>
+            <h2 id="version-tag">Settings v0.8.1</h2>
             <span class="close-btn" onclick="toggleSettings()">×</span>
         </div>
         
@@ -49,18 +49,21 @@
                 <label>Darkness:</label>
                 <input type="range" id="theme-intensity" min="0" max="100" value="95">
             </div>
+            <button class="menu-btn" onclick="setThemePreset('dark')">Default Dark</button>
+            <button class="menu-btn" onclick="setThemePreset('amoled')">Amoled Black</button>
+            <button class="menu-btn" onclick="setThemePreset('light')">Light Mode</button>
         </div>
 
         <div id="data" class="tab-content">
             <button id="save-btn" class="menu-btn">Export String</button>
-            <textarea id="save-string"></textarea>
+            <textarea id="save-string" placeholder="Paste or view save string..."></textarea>
             <button id="load-btn" class="menu-btn" style="background:#27ae60">Import String</button>
         </div>
     </div>
 
     <div id="ui-container">
         <div id="status-bar">
-            v0.8.0 | Step: <span id="step-count">0</span> | N: <span id="n-display">2</span>
+            v0.8.1 | Step: <span id="step-count">0</span> | N: <span id="n-display">2</span>
         </div>
         <div id="game-grid"></div>
         <div id="controls">
