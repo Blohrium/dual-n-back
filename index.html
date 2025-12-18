@@ -3,52 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dual N-Back Scaled</title>
+    <title>Multi-Grid N-Back</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="settings-icon" onclick="toggleSettings()">⚙️</div>
 
-<div id="settings-panel" class="closed">
-    <div class="panel-header">
-        <h2>Settings</h2>
-        <span class="close-btn" onclick="toggleSettings()">×</span>
-    </div>
-    
-    <div class="setting-group">
-        <label>N-Back Level:</label>
-        <input type="number" id="n-level" value="2" min="1">
+    <div id="settings-panel" class="closed">
+        <div class="panel-header">
+            <h2>Settings</h2>
+            <span class="close-btn" onclick="toggleSettings()">×</span>
+        </div>
+        
+        <div class="setting-group">
+            <label>N-Back Level:</label>
+            <input type="number" id="n-level" value="2" min="1">
+        </div>
+
+        <div class="setting-group">
+            <label>Layout (e.g. 2 for 2x2 stimuli):</label>
+            <input type="number" id="layout-size" value="1" min="1" max="4">
+        </div>
+
+        <div class="setting-group">
+            <label>Internal Grid Resolution:</label>
+            <input type="number" id="grid-res" value="3" min="1" max="20">
+        </div>
+
+        <hr>
+        <button id="save-btn">Export Save String</button>
+        <textarea id="save-string" placeholder="Paste save here..."></textarea>
     </div>
 
-    <div class="setting-group">
-        <label>Grid Size:</label>
-        <input type="number" id="grid-size-input" value="3" min="3" max="10">
-    </div>
-
-    <hr>
-    <h3>Data Management</h3>
-    <button id="save-btn">Export Save String</button>
-    <textarea id="save-string" placeholder="Paste save here..."></textarea>
-</div>
     <div id="ui-container">
         <h1>Dual N-Back</h1>
         <div id="game-grid"></div>
         
         <div id="controls">
-            <button id="start-btn" style="padding: 15px 30px; font-size: 18px;">Start Session</button>
-            <div id="match-buttons" style="margin-top: 20px;">
-                <button id="pos-match" style="padding: 20px; width: 80%;">Position Match (A)</button>
+            <button id="start-btn">Start Session</button>
+            <div id="match-buttons">
+                <button id="pos-match">Position Match (A)</button>
             </div>
         </div>
-
-        <div id="settings" style="margin-top: 30px; border-top: 1px solid #444; padding-top: 10px;">
-            <h3>Settings</h3>
-            <label>N-Level: <input type="number" id="n-level" value="2" min="1" style="width: 40px;"></label>
-            <button id="save-btn">Export Save</button>
-            <p>Save String (Paste to Load):</p>
-            <textarea id="save-string"></textarea>
-        </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,105 +1,37 @@
-:root {
-    --grid-size: 3;
-    --cell-size: 1fr; /* Use fractional units to fill space */
-}
-
-body {
-    background-color: #1a1a1a;
-    color: #e0e0e0;
-    font-family: sans-serif;
-    display: flex;
-    justify-content: center;
-    padding: 10px;
-    margin: 0;
-    touch-action: manipulation; /* Faster clicks on mobile */
-}
-
-#ui-container {
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-}
-
-#game-grid {
-    display: grid;
-    /* This automatically scales based on the gridSize variable */
-    grid-template-columns: repeat(var(--grid-size), 1fr); 
-    grid-gap: 8px;
-    width: 90vw;
-    height: 90vw; /* Keep it a perfect square */
-    max-width: 360px;
-    max-height: 360px;
-    margin: 20px auto;
+.stimulus-container {
+    border: 2px solid #444; /* Highlights each stimulus area */
+    padding: 2px;
+    gap: 1px;
 }
 
 .cell {
-    background-color: #333;
-    border-radius: 4px;
-    transition: background-color 0.1s ease;
+    background-color: #222;
+    aspect-ratio: 1/1;
 }
 
-.cell.active {
-    background-color: #3498db; /* Bright Blue */
-    box-shadow: 0 0 15px #3498db;
-}
-
-#save-string {
-    width: 90%;
-    height: 60px;
-    background: #000;
-    color: #0f0;
-    font-family: monospace;
-    font-size: 10px;
-}
-/* Settings Icon */
-#settings-icon {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    font-size: 30px;
-    cursor: pointer;
-    z-index: 1001;
-    user-select: none;
-}
-
-/* The Panel */
+/* Settings slide-out fix */
 #settings-panel {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 280px;
-    height: 100%;
-    background: #252525;
-    box-shadow: 5px 0 15px rgba(0,0,0,0.5);
-    transition: transform 0.3s ease;
-    padding: 20px;
-    z-index: 1000;
-    color: white;
+    /* ... existing CSS from previous turn ... */
+    transform: translateX(0); /* Panel is open by default if 'closed' class isn't there */
 }
-
 #settings-panel.closed {
     transform: translateX(-100%);
+}.stimulus-container {
+    border: 2px solid #444; /* Highlights each stimulus area */
+    padding: 2px;
+    gap: 1px;
 }
 
-.panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #444;
-    margin-bottom: 20px;
+.cell {
+    background-color: #222;
+    aspect-ratio: 1/1;
 }
 
-.close-btn {
-    font-size: 30px;
-    cursor: pointer;
+/* Settings slide-out fix */
+#settings-panel {
+    /* ... existing CSS from previous turn ... */
+    transform: translateX(0); /* Panel is open by default if 'closed' class isn't there */
 }
-
-.setting-group {
-    margin: 15px 0;
-}
-
-.setting-group label {
-    display: block;
-    font-size: 14px;
-    color: #bbb;
+#settings-panel.closed {
+    transform: translateX(-100%);
 }
