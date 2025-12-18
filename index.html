@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dual N-Back Pro</title>
+    <title>Dual N-Back Pro v0.8.0</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
 
     <div id="settings-panel" class="closed">
         <div class="panel-header">
-            <h2>Settings</h2>
+            <h2 id="version-tag">Settings v0.8.0</h2>
             <span class="close-btn" onclick="toggleSettings()">×</span>
         </div>
         
@@ -23,20 +23,20 @@
 
         <div id="game" class="tab-content active">
             <div class="setting-group">
-                <label>N-Back Level:</label>
+                <label>N-Level:</label>
                 <input type="number" id="n-level" value="2" min="1">
             </div>
             <div class="setting-group">
                 <label>Rows:</label>
-                <input type="number" id="grid-rows" value="1" min="1" max="10">
+                <input type="number" id="grid-rows" value="1" min="1" max="5">
             </div>
             <div class="setting-group">
                 <label>Cols:</label>
-                <input type="number" id="grid-cols" value="1" min="1" max="10">
+                <input type="number" id="grid-cols" value="1" min="1" max="5">
             </div>
             <div class="setting-group">
-                <label>Internal Resolution:</label>
-                <input type="number" id="grid-res" value="3" min="1" max="20">
+                <label>Internal Res:</label>
+                <input type="number" id="grid-res" value="3" min="1" max="10">
             </div>
             <div class="setting-group">
                 <label>Interval (ms):</label>
@@ -46,27 +46,27 @@
 
         <div id="theme" class="tab-content">
             <div class="setting-group">
-                <label>Darkness Intensity:</label>
-                <input type="range" id="theme-intensity" min="0" max="100" value="90">
+                <label>Darkness:</label>
+                <input type="range" id="theme-intensity" min="0" max="100" value="95">
             </div>
-            <button class="menu-btn" onclick="setThemePreset('dark')">Default Dark</button>
-            <button class="menu-btn" onclick="setThemePreset('amoled')">Amoled Black</button>
         </div>
 
         <div id="data" class="tab-content">
-            <button id="save-btn" class="menu-btn">Generate Save String</button>
-            <textarea id="save-string" placeholder="Save string will appear here..."></textarea>
-            <button id="load-btn" class="menu-btn" style="background:#27ae60">Load From String</button>
+            <button id="save-btn" class="menu-btn">Export String</button>
+            <textarea id="save-string"></textarea>
+            <button id="load-btn" class="menu-btn" style="background:#27ae60">Import String</button>
         </div>
     </div>
 
     <div id="ui-container">
-        <div id="status-bar">Step: <span id="step-count">0</span> | N: <span id="n-display">2</span></div>
+        <div id="status-bar">
+            v0.8.0 | Step: <span id="step-count">0</span> | N: <span id="n-display">2</span>
+        </div>
         <div id="game-grid"></div>
         <div id="controls">
-            <button id="start-btn" class="main-btn">Start Session</button>
-            <button id="pos-match" class="main-btn">Match Position (A)</button>
-            <div id="feedback">Ready...</div>
+            <button id="start-btn" class="main-btn">START SESSION</button>
+            <p style="font-size: 0.8rem; opacity: 0.7;">Click a box or use keys (1, 2, 3...) to match</p>
+            <div id="feedback">Ready</div>
         </div>
     </div>
     <script src="script.js"></script>
