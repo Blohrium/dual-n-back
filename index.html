@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexible Dual N-Back</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="ui-container">
+        <h1>Dual N-Back</h1>
+        <div id="game-grid"></div> <div id="controls">
+            <button id="start-btn">Start Session</button>
+            <div id="match-buttons">
+                <button id="pos-match">Position Match (A)</button>
+            </div>
+        </div>
+
+        <div id="settings">
+            <h3>Settings</h3>
+            <label>N-Back Level: <input type="number" id="n-level" value="2" min="1"></label>
+            <button id="save-btn">Save Settings</button>
+            <div id="save-string-area">
+                <p>Your Save String:</p>
+                <textarea id="save-string" readonly></textarea>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
